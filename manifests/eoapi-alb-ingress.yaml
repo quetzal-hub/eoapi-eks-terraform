@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eoapi-alb-ingress
+  namespace: eoapi
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/transforms.eoapi-stac: |
+      [{"type":"url-rewrite","urlRewriteConfig":{"rewrites":[{"regex":"^\\/stac(?:\\/(.*))?$","replace":"/$1"}]}}]
+    alb.ingress.kubernetes.io/transforms.eoapi-raster: |
+      [{"type":"url-rewrite","urlRewriteConfig":{"rewrites":[{"regex":"^\\/raster(?:\\/(.*))?$","replace":"/$1"}]}}]
+    alb.ingress.kubernetes.io/transforms.eoapi-vector: |
+      [{"type":"url-rewrite","urlRewriteConfig":{"rewrites":[{"regex":"^\\/vector(?:\\/(.*))?$","replace":"/$1"}]}}]
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /stac
+            pathType: Prefix
+            backend:
+              service:
+                name: eoapi-stac
+                port:
+                  number: 8080
+          - path: /raster
+            pathType: Prefix
+            backend:
+              service:
+                name: eoapi-raster
+                port:
+                  number: 8080
+          - path: /vector
+            pathType: Prefix
+            backend:
+              service:
+                name: eoapi-vector
+                port:
+                  number: 8080

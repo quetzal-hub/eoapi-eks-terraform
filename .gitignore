@@ -1,0 +1,39 @@
+# Terraform state — contains cluster credentials and secrets; never commit
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# Local Terraform working directory (provider binaries, module cache)
+.terraform/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Variable files may contain sensitive values; commit only the example
+*.tfvars
+*.tfvars.json
+!terraform.tfvars.example
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Personal study notes — not part of the published project
+INTERVIEW_PREP.md
+
+# Reference copies of upstream repos dropped in locally for comparison
+eoapi-k8s/
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+.DS_Store
